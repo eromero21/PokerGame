@@ -42,7 +42,7 @@ body {
 }
 
 .card-img {
-    width: 150px;
+    width: 5vw;
 }
 
 .card-img:hover {
@@ -51,7 +51,7 @@ body {
 }
 
 #dealer {
-    width: 150px;
+    width: 5vw;
 }
 
 #deal-deck {
