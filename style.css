@@ -46,7 +46,7 @@ body {
 }
 
 .card-img:hover {
-    transform: scale(2) translateY(-50px);
+    transform: scale(2) translateY(-5vh);
     z-index: 10;
 }
 
