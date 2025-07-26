@@ -8,15 +8,58 @@ body {
     color: white;
 }
 
+#name-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#name-entry {
+    margin: 0.5em;
+}
+
+#name-label {
+    font-size: large;
+    color: white;
+    display: block;
+}
+
+#warning-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#warning {
+    color: red;
+    font-size: x-large;
+}
+
 #buttons-container {
     display: flex;
     justify-content: center;
     align-content: center;
-    background-color: rgb(30, 92, 58);
 }
 
-#pull-cards {
-    font-size: xxx-large;
+#start-button {
+    margin-top: 1em;
+    padding: 0;
+    border: none;
+    background: none;
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+}
+
+#start-button img {
+    width: 8vw;
+    height: auto;
+    display: block;
+}
+
+#start-button img:hover {
+    border: 1px solid white;
 }
 
 #display-hand {
@@ -31,7 +74,7 @@ body {
     gap: 0.5em;
 }
 
-#river {
+#flop {
     display: flex;
     justify-content: center;
     align-items: center;

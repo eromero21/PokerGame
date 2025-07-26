@@ -6,17 +6,29 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1 id="main-header">Texas Holdem</h1>
+    <div id="intro">
+        <h1 id="main-header">Texas Holdem</h1>
 
-    <div id="buttons-container">
-        <button id="pull-cards">🃏</button>
+        <div id="name-container">
+            <label for="name-entry" id="name-label">Enter your name</label>
+            <input type="text" id="name-entry">
+        </div>
+
+        <div id="buttons-container">
+            <button id="start-button"><img src="./assets/cards/startgame.png" alt="start button">
+            </button>
+        </div>
+
+        <div id="warning-container" class="hidden">
+            <p id="warning"></p>
+        </div>
     </div>
 
     <div id="deal-deck">
         <img src="assets/cards/deck.png" alt="Dealer's Deck" id="dealer" class="hidden">
     </div>
 
-    <div id="river">
+    <div id="flop">
 
     </div>
 
