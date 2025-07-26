@@ -1,4 +1,4 @@
-export function renderCards(cards, element) {
+export function renderCards(cards, element, backside) {
     if (!element) {
         console.error(`No element found for ${cards.length} cards`);
         return;
@@ -7,7 +7,11 @@ export function renderCards(cards, element) {
 
     cards.forEach(card => {
         const img = document.createElement("img");
-        img.src = cardToImageFilename(card);
+        if (!backside) {
+            img.src = cardToImageFilename(card);
+        } else {
+            img.src = "assets/cards/backside.png";
+        }
         img.alt = card.toString();
         img.className = "card-img";
         element.appendChild(img);
