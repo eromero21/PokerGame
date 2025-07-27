@@ -38,7 +38,8 @@ export class Deck {
 
         // Grab random card and delete it from current cards
         for (let i = 0; i < amountOfCards; i++) {
-            cards.push(this.availableCards.splice(Math.floor(Math.random() * this.cardRank.length), 1))
+            cards.push(this.availableCards
+                .splice(Math.floor(Math.random() * this.availableCards.length), 1)[0]);
         }
         return cards;
     }

@@ -1,9 +1,10 @@
 import { Deck } from "./Deck.js";
 import { Player } from "./Player.js";
 
-class GameEngine {
+export class GameEngine {
+
     constructor(playerNames) {
-        this.players = playerNames.map(name => new Player(name));
+        this.players = playerNames.map((name) => new Player(name));
         this.deck = new Deck();
         this.boardCards = [];
         this.phase = "PreFlop"
@@ -15,12 +16,19 @@ class GameEngine {
         });
     }
 
+    getPlayers() {
+        return this.players;
+    }
+
     dealFlop() {
-        this.boardCards.push(this.deck.grabRandom(3));
+        const newCards = this.deck.grabRandom(3);
+        newCards.forEach((card) => {
+            this.boardCards.push(card);
+        });
     }
 
     dealNextCard() {
-        this.boardCards.push(this.deck.grabRandom(1));
+        this.boardCards.push(this.deck.grabRandom(1)[0]);
     }
 
     nextTurn() {
@@ -33,6 +41,27 @@ class GameEngine {
         } else {
             this.phase = "Showdown";
         }
+    }
+
+    playGame() {
+        if (this.phase === "PreFlop") {
+            this.playerCardDeal();
+            return {
+                phase: this.phase,
+                playerHand: this.players[0].hand
+            }
+        } else if (this.phase === "Flop") {
+            this.dealFlop();
+
+
+        } else if (this.phase === "PreRiver") {
+
+        } else if (this.phase === "River") {
+            console.log("Someone wins.");
+        } else {
+
+        }
+
     }
 
     calcWinner() {

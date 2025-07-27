@@ -36,7 +36,7 @@ body {
     font-size: x-large;
 }
 
-#buttons-container {
+#start-button-container {
     display: flex;
     justify-content: center;
     align-content: center;
@@ -89,7 +89,7 @@ body {
 }
 
 .card-img:hover {
-    transform: scale(2) translateY(-5vh);
+    transform: scale(2) translateY(-3vh);
     z-index: 10;
 }
 
@@ -109,6 +109,30 @@ body {
     gap: 0.5em;
 }
 
+#betting-panel {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    bottom: 0;
+    right: 0;
+    padding: 1em;
+    background-color: #333;
+    color: white;
+    gap: 0.5em;
+}
+
+#betting-panel button {
+    margin: 0.5em;
+    padding: 0.5em 1em;
+    cursor: pointer;
+}
+
+#bet-amount {
+    width: 100px;
+    margin-left: 0.5em;
+}
+
 .hidden {
-    display: none;
+    display: none !important;
 }

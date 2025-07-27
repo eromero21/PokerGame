@@ -8,13 +8,11 @@
 <body>
     <div id="intro">
         <h1 id="main-header">Texas Holdem</h1>
-
         <div id="name-container">
             <label for="name-entry" id="name-label">Enter your name</label>
             <input type="text" id="name-entry">
         </div>
-
-        <div id="buttons-container">
+        <div id="start-button-container">
             <button id="start-button"><img src="./assets/cards/startgame.png" alt="start button">
             </button>
         </div>
@@ -34,6 +32,19 @@
 
     <div id="display-hand">
 
+    </div>
+
+    <div id="betting-panel" class="hidden">
+        <p id="player-turn"></p>
+        <h2>Betting Window</h2>
+        <div>
+            <button id="fold-button">Fold</button>
+            <button id="check-button">Check</button>
+            <button id="call-button">Call</button>
+            <label for="bet-input" id="bet-input-label"></label>
+            <input type="number" id="bet-input" placeholder="Amount of chips">
+            <button id="raise-button">Raise</button>
+        </div>
     </div>
 
     <script type="module" src="main.js">
