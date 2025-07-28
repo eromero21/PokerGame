@@ -52,7 +52,10 @@ export class GameEngine {
             }
         } else if (this.phase === "Flop") {
             this.dealFlop();
-
+            return {
+                phase: this.phase,
+                flop: this.boardCards
+            }
 
         } else if (this.phase === "PreRiver") {
 
