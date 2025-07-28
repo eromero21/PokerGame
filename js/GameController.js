@@ -1,4 +1,5 @@
 import { GameEngine } from "./GameEngine.js";
+import * as UI from "./UI.js";
 
 const foldButton = document.getElementById("fold-button");
 const callButton = document.getElementById("call-button");
@@ -45,7 +46,11 @@ export function getCurrentPlayer() {
 
 foldButton.addEventListener("click", () => {
    console.log(playerNames[currentPlayerIndex] + " has folded");
-   // TODO - Go next round for single player variation
+   gameEngine.nextTurn();
+   const { phase, flop } = gameEngine.playGame();
+   console.log(phase);
+   UI.displayFlop(phase, flop);
+   // TODO - This function so far is to test logic. Still needs proper implementation
 });
 
 callButton.addEventListener("click", () => {

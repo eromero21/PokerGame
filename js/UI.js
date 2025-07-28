@@ -3,6 +3,7 @@ import * as GameController from "./GameController.js";
 
 const startButton = document.getElementById("start-button");
 const nameInput = document.getElementById("name-entry");
+const flop = document.getElementById("flop");
 
 let playerNames = [];
 let gameEngine = null;
@@ -23,6 +24,11 @@ export function init() {
         document.getElementById("intro").classList.add("hidden");
         document.getElementById("dealer").classList.remove("hidden");
     });
+}
+
+export function displayFlop(phase, boardCards) {
+    renderCards(boardCards, flop, false);
+    // TODO - This function may be complete, but if so phase would not be necessary.
 }
 
 function showWarning(message) {
