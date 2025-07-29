@@ -4,6 +4,7 @@ import * as GameController from "./GameController.js";
 const startButton = document.getElementById("start-button");
 const nameInput = document.getElementById("name-entry");
 const flop = document.getElementById("flop");
+const displayHand = document.getElementById("display-hand");
 
 let playerNames = [];
 let gameEngine = null;
@@ -19,19 +20,31 @@ export function init() {
             return;
         }
 
-        renderCards(result.playerHand, document.getElementById("display-hand"), false);
         document.getElementById("betting-panel").classList.remove("hidden");
-        document.getElementById("intro").classList.add("hidden");
         document.getElementById("dealer").classList.remove("hidden");
+        document.getElementById("intro").classList.add("hidden");
+        document.getElementById("warning-container").classList.add("hidden");
     });
 }
 
-export function displayFlop(phase, boardCards) {
-    renderCards(boardCards, flop, false);
+export function displayCards(phase, cards) {
+    if (phase === "PreFlop") {
+        renderCards(cards, displayHand, false);
+    } else if (phase === "Flop") {
+        renderCards(cards, flop, false);
+    } else if (phase === "PreRiver") {
+        renderCards(cards, flop, false);
+    } else if (phase === "River") {
+        renderCards(cards, flop, false);
+    }
     // TODO - This function may be complete, but if so phase would not be necessary.
 }
 
-function showWarning(message) {
+export function showWarning(message) {
     document.getElementById("warning-container").classList.remove("hidden");
     document.getElementById("warning").textContent = message;
+}
+
+export function hideWarning() {
+    document.getElementById("warning-container").classList.add("hidden");
 }

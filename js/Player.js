@@ -4,6 +4,7 @@ export class Player {
         this.hand = [];
         this.inPlay = true;
         this.chips = 500;
+        this.currentBet = 0;
     }
 
     setHand(hand) {

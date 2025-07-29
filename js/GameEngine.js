@@ -8,6 +8,10 @@ export class GameEngine {
         this.deck = new Deck();
         this.boardCards = [];
         this.phase = "PreFlop"
+        this.currentPlayerIndex = 0;
+        this.pot = 0;
+        this.currentBet = 0;
+        this.playersActed = new Set();
     }
 
     playerCardDeal() {
@@ -34,17 +38,28 @@ export class GameEngine {
     nextTurn() {
         if (this.phase === "PreFlop") {
             this.phase = "Flop";
+            this.dealFlop();
         } else if (this.phase === "Flop") {
             this.phase = "PreRiver";
+            this.dealNextCard();
         } else if (this.phase === "PreRiver") {
             this.phase = "River";
+            this.dealNextCard();
         } else {
             this.phase = "Showdown";
         }
     }
 
     nextPlayer() {
-        // TODO - Implement player turns
+        // if (this.players.filter(p => p.inPlay).length <= 1) {
+        //     console.log("1 or less players remain - end hand");
+        //     this.phase = "Showdown";
+        //     return;
+        // }
+
+        do {
+            this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
+        } while (!this.players[this.currentPlayerIndex].inPlay);
     }
 
     playGame() {
@@ -52,23 +67,33 @@ export class GameEngine {
             this.playerCardDeal();
             return {
                 phase: this.phase,
-                playerHand: this.players[0].hand
+                cards: this.players[0].hand
             }
         } else if (this.phase === "Flop") {
-            this.dealFlop();
             return {
                 phase: this.phase,
-                flop: this.boardCards
+                cards: this.boardCards
             }
-
         } else if (this.phase === "PreRiver") {
-
+            return {
+                phase: this.phase,
+                cards: this.boardCards
+            }
         } else if (this.phase === "River") {
             console.log("Someone wins.");
         } else {
 
         }
 
+    }
+
+    hasEveryoneActed() {
+        return this.playersActed.size >= this.players.filter(p => p.inPlay).length;
+    }
+
+    canAdvance() {
+        const allMatched = this.players.filter(p => p.inPlay).every(p => p.currentBet === this.currentBet);
+        return allMatched && this.hasEveryoneActed();
     }
 
     calcWinner() {

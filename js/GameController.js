@@ -7,10 +7,8 @@ const checkButton = document.getElementById("check-button");
 const raiseButton = document.getElementById("raise-button");
 const betInput = document.getElementById("bet-input");
 
-let currentPlayerIndex = 0;
 let gameEngine = null;
 let playerNames = [];
-let boardBet = 0;
 
 export function requestStart(name) {
     if (!name) {
@@ -28,11 +26,10 @@ export function requestStart(name) {
     playerNames.push(name);
     gameEngine = new GameEngine(playerNames);
 
-    const { phase, playerHand } = gameEngine.playGame();
+    const { phase, cards } = gameEngine.playGame();
+    UI.displayCards(phase, cards);
     return {
-        success: true,
-        phase: phase,
-        playerHand: playerHand,
+        success: true
     };
 }
 
@@ -41,31 +38,76 @@ function isNameAvailable(name) {
 }
 
 export function getCurrentPlayer() {
-    return gameEngine.getPlayers()[currentPlayerIndex];
+    return gameEngine.getPlayers()[gameEngine.currentPlayerIndex];
 }
 
 foldButton.addEventListener("click", () => {
-   console.log(playerNames[currentPlayerIndex] + " has folded");
-   gameEngine.nextTurn();
-   const { phase, flop } = gameEngine.playGame();
-   console.log(phase);
-   UI.displayFlop(phase, flop);
-   // TODO - This function so far is to test logic. Still needs proper implementation
+   console.log(playerNames[gameEngine.currentPlayerIndex] + " has folded");
+   UI.hideWarning();
+   // gameEngine.getPlayers()[gameEngine.currentPlayerIndex].inPlay = false;
+
+   progressToNextCheck();
+   const { phase, cards } = gameEngine.playGame();
+   UI.displayCards(phase, cards);
 });
 
 callButton.addEventListener("click", () => {
-   console.log(playerNames[currentPlayerIndex] + " has called.");
-   // TODO - Match the current table bet amount. Remove chips from user.
+   console.log(playerNames[gameEngine.currentPlayerIndex] + " has called.");
+    UI.hideWarning();
+
+    const player = gameEngine.getPlayers()[gameEngine.currentPlayerIndex];
+    if (player.currentBet === gameEngine.currentBet) {
+        UI.showWarning("You cannot call as there is no bet on the table. Either check, fold, or raise.");
+        return;
+    }
+    progressToNextCheck();
+    const { phase, cards } = gameEngine.playGame();
+    UI.displayCards(phase, cards);
 });
 
 checkButton.addEventListener("click", () => {
-   console.log(playerNames[currentPlayerIndex] + " has checked");
-   // TODO - Check if there's a table bet. If allowed, pass turn with no additional bet.
+    console.log(playerNames[gameEngine.currentPlayerIndex] + " has checked.");
+    UI.hideWarning();
+
+    const player = gameEngine.getPlayers()[gameEngine.currentPlayerIndex];
+    if (player.currentBet !== gameEngine.currentBet) {
+        UI.showWarning("You cannot check as there's a bet on the table. Either call, raise, or fold.")
+        return;
+    }
+    progressToNextCheck();
+    const { phase, cards } = gameEngine.playGame();
+    UI.displayCards(phase, cards);
 });
 
 raiseButton.addEventListener("click", () => {
-    console.log(playerNames[currentPlayerIndex] + " has raised by " + betInput.value.trim() + " chips.");
-    // TODO - Check if the amount is lower than current table bet. Remove chips from user and adjust table bet amount.
+    console.log(playerNames[gameEngine.currentPlayerIndex] + " has raised by " + betInput.value.trim() + " chips.");
+    UI.hideWarning();
+
+    const raiseAmount = parseInt(betInput.value.trim());
+    const player = getCurrentPlayer();
+
+    if (raiseAmount > player.chips) {
+        UI.showWarning("You are trying to raise by more chips than you have.");
+        return;
+    }
+
+    gameEngine.currentBet += raiseAmount;
+    gameEngine.pot += raiseAmount;
+    player.chips -= raiseAmount;
+    player.currentBet += raiseAmount;
+
+    progressToNextCheck();
+    const { phase, cards } = gameEngine.playGame();
+    UI.displayCards(phase, cards);
 });
 
-// TODO game progression
+function progressToNextCheck() {
+    gameEngine.playersActed.add(gameEngine.currentPlayerIndex);
+
+    if (gameEngine.canAdvance()) {
+        gameEngine.nextTurn();
+        gameEngine.playersActed.clear();
+    }
+
+    gameEngine.nextPlayer();
+}
