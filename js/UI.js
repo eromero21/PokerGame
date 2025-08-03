@@ -37,7 +37,6 @@ export function displayCards(phase, cards) {
     } else if (phase === "River") {
         renderCards(cards, flop, false);
     }
-    // TODO - This function may be complete, but if so phase would not be necessary.
 }
 
 export function showWarning(message) {
