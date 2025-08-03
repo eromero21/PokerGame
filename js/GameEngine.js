@@ -45,8 +45,11 @@ export class GameEngine {
         } else if (this.phase === "PreRiver") {
             this.phase = "River";
             this.dealNextCard();
-        } else {
+        } else if (this.phase === "River") {
             this.phase = "Showdown";
+            this.dealNextCard();
+        } else {
+            // TODO - Somebody wins and restart game
         }
     }
 
@@ -80,9 +83,12 @@ export class GameEngine {
                 cards: this.boardCards
             }
         } else if (this.phase === "River") {
-            console.log("Someone wins.");
+            return {
+                phase: this.phase,
+                cards: this.boardCards
+            }
         } else {
-
+            // TODO - End game handling
         }
 
     }
