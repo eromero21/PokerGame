@@ -28,6 +28,7 @@ export function init() {
 }
 
 export function displayCards(phase, cards) {
+    console.log(cards);
     if (phase === "PreFlop") {
         renderCards(cards, displayHand, false);
     } else if (phase === "Flop") {

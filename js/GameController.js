@@ -10,6 +10,11 @@ const betInput = document.getElementById("bet-input");
 let gameEngine = null;
 let playerNames = [];
 
+/**
+ *
+ * @param {String} name
+ * @returns {{success: boolean}|{success: boolean, message: string}}
+ */
 export function requestStart(name) {
     if (!name) {
         return {
